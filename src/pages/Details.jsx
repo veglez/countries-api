@@ -10,8 +10,8 @@ import {
   Links,
 } from './detailsStyles';
 const Details = () => {
-  const { name } = useParams();
-  // const name = 'belgium';
+  // const { name } = useParams();
+  const name = 'belgium';
   const [data, setData] = useState({});
   const [bordersName, setBordersName] = useState([]);
 

@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const SearchField = styled.label`
   /* width: fit-content; */
   /* border: 1px solid green; */
-  margin: 2em auto;
+  /* margin: 2em auto; */
   padding: 16px 5px;
   display: flex;
   align-items: center;

@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const Container = styled.div`
   width: 220px;
-  height: 250px;
+  /* height: 250px; */
   margin: 1em;
   display: flex;
   flex-direction: column;
@@ -32,19 +32,26 @@ export const List = styled.ul`
   background-color: ${({ theme }) => theme.elements};
   display: ${({ show }) => (show ? 'block' : 'none')};
   position: absolute;
-  bottom: 0;
+  top: 110%;
   width: 100%;
   z-index: 10;
+`;
 
-  & * {
-    padding: 8px 16px;
+export const ListItem = styled.li`
+  padding: 8px 16px;
+  /* display: inline-block; */
+  width: 100%;
 
-    &:hover {
-      background-color: rgba(0, 0, 0, 0.25);
-    }
-
-    &:first-child {
-      padding: 16px 0 8px 16px;
-    }
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.25);
   }
+
+  &:first-child {
+    padding: 16px 0 8px 16px;
+  }
+  &:focus {
+    background-color: initial;
+  }
+  background-color: ${({ isActive }) =>
+    isActive ? 'rgba(0, 0, 0, 0.45)' : 'initial'};
 `;

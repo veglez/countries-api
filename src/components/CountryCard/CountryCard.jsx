@@ -1,45 +1,29 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useTheme } from '../../context/themeContext';
 import { Card } from './styles';
 
-const CountryCard = () => {
-  const [data, setData] = useState({});
-  const [loading, setLoading] = useState(true);
+const CountryCard = ({ name, flag, population, region, capital }) => {
   const { currentTheme } = useTheme();
 
-  useEffect(() => {
-    fetch('https://restcountries.eu/rest/v2/name/Germany')
-      .then((res) => res.json())
-      .then((data) => {
-        setData(data[0]);
-        setLoading(false);
-      });
-  }, []);
-
-  // console.log(typeof data.population);
-  if (loading) {
-    return <h1>Loading....</h1>;
-  } else {
-    return (
-      <Card theme={currentTheme}>
-        <div className='card__imgContainer'>
-          <img src={data.flag} alt='country flag' />
-        </div>
-        <div className='card__body'>
-          <h2>{data.name}</h2>
-          <p>
-            <span>Population:</span> {data.population.toLocaleString()}
-          </p>
-          <p>
-            <span>Region:</span> {data.region}
-          </p>
-          <p>
-            <span>Capital:</span> {data.capital}
-          </p>
-        </div>
-      </Card>
-    );
-  }
+  return (
+    <Card theme={currentTheme}>
+      <div className='card__imgContainer'>
+        <img src={flag} alt={`flag of ${name}`} />
+      </div>
+      <div className='card__body'>
+        <h2>{name}</h2>
+        <p>
+          <span>Population:</span> {population.toLocaleString()}
+        </p>
+        <p>
+          <span>Region:</span> {region}
+        </p>
+        <p>
+          <span>Capital:</span> {capital}
+        </p>
+      </div>
+    </Card>
+  );
 };
 
 export default CountryCard;

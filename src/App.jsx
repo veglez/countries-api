@@ -5,6 +5,7 @@ import Header from './components/Header/Header';
 import { useTheme } from './context/themeContext';
 import Homepage from './pages/Homepage';
 import Details from './pages/Details';
+import CountriesProvider from './context/dataContext';
 
 const Container = styled.div`
   color: ${({ theme }) => theme.text};
@@ -15,18 +16,20 @@ const Container = styled.div`
 const App = () => {
   const { currentTheme } = useTheme();
   return (
-    <Container theme={currentTheme}>
-      <Header />
-      <BrowserRouter>
-        <Switch>
-          <Route exact path='/' component={Homepage} />
-          <Route exact path='/details/:name' component={Details} />
-          <Route>
-            <h1>404 Not Found</h1>
-          </Route>
-        </Switch>
-      </BrowserRouter>
-    </Container>
+    <CountriesProvider>
+      <Container theme={currentTheme}>
+        <Header />
+        <BrowserRouter>
+          <Switch>
+            <Route exact path='/' component={Homepage} />
+            <Route exact path='/details/name' component={Details} />
+            <Route>
+              <h1>404 Not Found</h1>
+            </Route>
+          </Switch>
+        </BrowserRouter>
+      </Container>
+    </CountriesProvider>
   );
 };
 

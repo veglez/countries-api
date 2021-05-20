@@ -1,15 +1,18 @@
 import React from 'react';
-import CountryCard from '../components/CountryCard/CountryCard';
 import Filter from '../components/Filter/Filter';
+import ListOfCountriesCards from '../components/ListOfCountriesCards/ListOfCountriesCards';
 import SearchInput from '../components/SearchInput/SearchInput';
+import { Filters, Container } from './homepageStyles';
 
 const Homepage = () => {
   return (
-    <div>
-      <SearchInput />
-      <Filter />
-      <CountryCard />
-    </div>
+    <Container>
+      <Filters>
+        <SearchInput />
+        <Filter />
+      </Filters>
+      <ListOfCountriesCards />
+    </Container>
   );
 };
 
