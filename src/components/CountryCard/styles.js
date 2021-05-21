@@ -11,9 +11,11 @@ export const Card = styled(Link)`
   overflow: hidden;
   background-color: ${({ theme }) => theme.elements};
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+  height: 380px;
 
   img {
     width: 100%;
+    height: 180px;
   }
 
   div.card__body {

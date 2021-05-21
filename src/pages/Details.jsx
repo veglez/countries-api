@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Redirect, useHistory, useParams } from 'react-router-dom';
 import BackButton from '../components/BackButton/BackButton';
 import BorderCountryButton from '../components/BorderCountryButton/BorderCountryButton';
+import { useData } from '../context/dataContext';
 import {
   Container,
   Article,
@@ -17,25 +18,12 @@ const Details = () => {
     currentUrl: name,
     previousUrl: [],
   };
-  const [data, setData] = useState({});
+  const { allCountries } = useData();
   const [navigation, setNavigation] = useState(initialState);
+  const data = allCountries.filter(
+    (country) => country.name === navigation.currentUrl
+  )[0];
   const historyHook = useHistory();
-
-  //NAME DEBE ESTAR CAPITALIZE
-
-  const baseUrl = `https://restcountries.eu/rest/v2/name/${navigation.currentUrl}`;
-
-  useEffect(() => {
-    fetch(baseUrl)
-      .then((res) => res.json())
-      .then((country) => setData(country[0]))
-      .catch((err) => {
-        console.log(`hubo un error al traer ${name}`);
-        console.error(err);
-        return historyHook.push('/');
-        //FALTA EVITAR QUE SE RENDERICE SE INTENTE LLEGAR A UN CATCH OSEA... UN 404
-      });
-  }, [navigation.currentUrl]);
 
   //LA API TRAE CONSIGO BORDERS PERO SOLO SON LOS alpha3Code NO REALMENTE EL NOMBRE QUE FASTIDIO
 
@@ -64,6 +52,7 @@ const Details = () => {
     setNavigation((p) => {
       let historial = p.previousUrl;
       const last = historial.pop();
+
       return {
         ...p,
         borders: [],
