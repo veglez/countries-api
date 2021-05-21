@@ -9,6 +9,7 @@ module.exports = {
     path: path.resolve(__dirname, 'dist'),
     filename: '[name].[contenthash].js',
     clean: true,
+    publicPath: '/',
   },
   resolve: {
     extensions: ['.js', '.jsx'],
@@ -36,9 +37,11 @@ module.exports = {
     ],
   },
   plugins: [
-    new MiniCssExtractPlugin(),
+    new MiniCssExtractPlugin({
+      filename: './[name].css',
+    }),
     new HtmlWebpackPlugin({
-      filename: 'index.html',
+      // filename: 'index.html',
       title: 'Countries API',
       template: './public/index.html',
     }),

@@ -1,7 +1,10 @@
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-export const Card = styled.article`
+export const Card = styled(Link)`
   /* border: 1px solid steelblue; */
+  text-decoration: none;
+  color: inherit;
   border-radius: 8px;
   max-width: 250px;
   margin: 0 auto;

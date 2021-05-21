@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { Redirect, useHistory, useParams } from 'react-router-dom';
 import BackButton from '../components/BackButton/BackButton';
 import BorderCountryButton from '../components/BorderCountryButton/BorderCountryButton';
 import {
@@ -9,42 +9,74 @@ import {
   Content,
   Links,
 } from './detailsStyles';
+
 const Details = () => {
-  // const { name } = useParams();
-  const name = 'belgium';
+  const { name } = useParams();
+  const initialState = {
+    borders: [],
+    currentUrl: name,
+    previousUrl: [],
+  };
   const [data, setData] = useState({});
-  const [bordersName, setBordersName] = useState([]);
+  const [navigation, setNavigation] = useState(initialState);
+  const historyHook = useHistory();
 
   //NAME DEBE ESTAR CAPITALIZE
 
-  const baseUrl = `https://restcountries.eu/rest/v2/name/${name}`;
+  const baseUrl = `https://restcountries.eu/rest/v2/name/${navigation.currentUrl}`;
 
   useEffect(() => {
     fetch(baseUrl)
       .then((res) => res.json())
       .then((country) => setData(country[0]))
       .catch((err) => {
+        console.log(`hubo un error al traer ${name}`);
         console.error(err);
+        return historyHook.push('/');
         //FALTA EVITAR QUE SE RENDERICE SE INTENTE LLEGAR A UN CATCH OSEA... UN 404
       });
-  }, []);
+  }, [navigation.currentUrl]);
 
   //LA API TRAE CONSIGO BORDERS PERO SOLO SON LOS alpha3Code NO REALMENTE EL NOMBRE QUE FASTIDIO
+
+  // FIX BUG WHEN CLICK ON BORDER ADD THE LATEST AND NEW BORDERS
 
   useEffect(() => {
     Object.keys(data).length > 0 &&
       data.borders.map((border) => {
         fetch(`https://restcountries.eu/rest/v2/alpha/${border}`)
           .then((res) => res.json())
-          .then((innerData) => setBordersName((p) => [...p, innerData.name]));
+          .then((innerData) =>
+            setNavigation((p) => {
+              return { ...p, borders: [...p.borders, innerData.name] };
+            })
+          );
       });
   }, [data]);
 
-  if (Object.keys(data).length < 1 && bordersName.length < 1)
-    return <h3>Loading....</h3>;
+  useEffect(() => {
+    navigation.currentUrl === undefined && <Redirect to='/' />;
+  }, [navigation]);
+
+  const handleClick = () => {
+    if (navigation.previousUrl.length === 0) return historyHook.push('/');
+    console.log(`al dark click en back es estado es: `, { ...navigation });
+    setNavigation((p) => {
+      let historial = p.previousUrl;
+      const last = historial.pop();
+      return {
+        ...p,
+        borders: [],
+        currentUrl: last,
+        previousUrl: historial,
+      };
+    });
+  };
+
+  if (Object.keys(data).length < 1) return <h3>Loading....</h3>;
   return (
     <Container>
-      <BackButton />
+      <BackButton handleClick={handleClick} />
       <Article>
         <img src={data.flag} alt={`flag of ${data.name}`} />
         <InfoContainer className='info'>
@@ -106,8 +138,22 @@ const Details = () => {
           <Links className='links'>
             <p>Border Countries: </p>
             <div>
-              {bordersName.map((border, i) => (
-                <BorderCountryButton text={border} key={i} />
+              {navigation.borders.map((border, i) => (
+                <BorderCountryButton
+                  text={border}
+                  key={i}
+                  to={`/details/${border}`}
+                  handleClick={() =>
+                    setNavigation((p) => {
+                      return {
+                        ...p,
+                        borders: [],
+                        currentUrl: border,
+                        previousUrl: [...p.previousUrl, p.currentUrl],
+                      };
+                    })
+                  }
+                />
               ))}
             </div>
           </Links>

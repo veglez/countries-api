@@ -18,11 +18,11 @@ const App = () => {
   return (
     <CountriesProvider>
       <Container theme={currentTheme}>
-        <Header />
         <BrowserRouter>
+          <Header />
           <Switch>
             <Route exact path='/' component={Homepage} />
-            <Route exact path='/details/name' component={Details} />
+            <Route exact path='/details/:name' component={Details} />
             <Route>
               <h1>404 Not Found</h1>
             </Route>

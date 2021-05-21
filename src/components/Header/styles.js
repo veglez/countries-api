@@ -9,8 +9,13 @@ export const HeaderStyled = styled.header`
   justify-content: space-between;
   align-items: center;
   background-color: ${({ theme }) => theme.elements};
-  h1 {
-    font-size: 1em;
+  a {
     font-weight: var(--Weight3);
+    color: inherit;
+    text-decoration: none;
+
+    h1 {
+      font-size: 18px;
+    }
   }
 `;

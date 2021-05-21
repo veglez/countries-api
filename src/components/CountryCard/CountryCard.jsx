@@ -6,7 +6,7 @@ const CountryCard = ({ name, flag, population, region, capital }) => {
   const { currentTheme } = useTheme();
 
   return (
-    <Card theme={currentTheme}>
+    <Card theme={currentTheme} to={`/details/${name}`}>
       <div className='card__imgContainer'>
         <img src={flag} alt={`flag of ${name}`} />
       </div>
