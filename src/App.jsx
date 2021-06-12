@@ -22,7 +22,7 @@ const App = () => {
           <Header />
           <Switch>
             <Route exact path='/' component={Homepage} />
-            <Route exact path='/details/:name' component={Details} />
+            <Route exact path='/details/:name' render={props => <Details {...props} key={props.match.params.name} />} />
             <Route>
               <h1>404 Not Found</h1>
             </Route>

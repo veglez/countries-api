@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { Redirect, useHistory, useParams } from 'react-router-dom';
+import React  from 'react';
+import {  useHistory, useParams } from 'react-router-dom';
 import BackButton from '../components/BackButton/BackButton';
 import BorderCountryButton from '../components/BorderCountryButton/BorderCountryButton';
 import { useData } from '../context/dataContext';
@@ -13,53 +13,19 @@ import {
 
 const Details = () => {
   const { name } = useParams();
-  const initialState = {
-    borders: [],
-    currentUrl: name,
-    previousUrl: [],
-  };
   const { allCountries } = useData();
-  const [navigation, setNavigation] = useState(initialState);
-  const data = allCountries.filter(
-    (country) => country.name === navigation.currentUrl
-  )[0];
   const historyHook = useHistory();
 
-  //LA API TRAE CONSIGO BORDERS PERO SOLO SON LOS alpha3Code NO REALMENTE EL NOMBRE QUE FASTIDIO
+  const data = allCountries.filter(
+    (country) => country.name === name
+  )[0];
 
-  // FIX BUG WHEN CLICK ON BORDER ADD THE LATEST AND NEW BORDERS
-
-  useEffect(() => {
-    Object.keys(data).length > 0 &&
-      data.borders.map((border) => {
-        fetch(`https://restcountries.eu/rest/v2/alpha/${border}`)
-          .then((res) => res.json())
-          .then((innerData) =>
-            setNavigation((p) => {
-              return { ...p, borders: [...p.borders, innerData.name] };
-            })
-          );
-      });
-  }, [data]);
-
-  useEffect(() => {
-    navigation.currentUrl === undefined && <Redirect to='/' />;
-  }, [navigation]);
+  const borders = data.borders
+  .map(alphaCode => allCountries
+    .filter( country => country.alpha3Code === alphaCode))
 
   const handleClick = () => {
-    if (navigation.previousUrl.length === 0) return historyHook.push('/');
-    console.log(`al dark click en back es estado es: `, { ...navigation });
-    setNavigation((p) => {
-      let historial = p.previousUrl;
-      const last = historial.pop();
-
-      return {
-        ...p,
-        borders: [],
-        currentUrl: last,
-        previousUrl: historial,
-      };
-    });
+    historyHook.goBack()
   };
 
   if (Object.keys(data).length < 1) return <h3>Loading....</h3>;
@@ -127,21 +93,11 @@ const Details = () => {
           <Links className='links'>
             <p>Border Countries: </p>
             <div>
-              {navigation.borders.map((border, i) => (
+              {borders.map((border, i) => (
                 <BorderCountryButton
-                  text={border}
-                  key={i}
-                  to={`/details/${border}`}
-                  handleClick={() =>
-                    setNavigation((p) => {
-                      return {
-                        ...p,
-                        borders: [],
-                        currentUrl: border,
-                        previousUrl: [...p.previousUrl, p.currentUrl],
-                      };
-                    })
-                  }
+                  key={i} 
+                  text={border[0].name}
+                  to={`/details/${border[0].name}`}
                 />
               ))}
             </div>
