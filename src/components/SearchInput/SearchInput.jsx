@@ -16,7 +16,7 @@ const SearchInput = () => {
         filteredCountries.filter((country) =>
           country.name.toLowerCase().includes(value.toLowerCase())
         )
-      ),2030
+      ),
     [value, filteredCountries]
   );
 

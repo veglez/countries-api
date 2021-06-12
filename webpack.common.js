@@ -1,6 +1,8 @@
 const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const WebpackPwaManifest = require('webpack-pwa-manifest');
+const WorkboxWebpackPlugin = require('workbox-webpack-plugin');
 /** @type {import('webpack').Configuration} */
 
 module.exports = {
@@ -44,6 +46,31 @@ module.exports = {
       // filename: 'index.html',
       title: 'Countries API',
       template: './public/index.html',
+    }),
+    new WebpackPwaManifest({
+      name: 'REST Countries API with color theme switcher',
+      short_name: 'Countries API',
+      description:
+        'Una colección de las banderas y otros datos de paises de todo el mundo',
+      background_color: '#fff',
+      theme_color: '#bf1',
+      icons: [
+        {
+          src: path.resolve(__dirname, 'public/icon.png'),
+          sizes: [96, 128, 192, 256, 384, 512],
+        },
+      ],
+    }),
+    new WorkboxWebpackPlugin.GenerateSW({
+      runtimeCaching: [
+        {
+          urlPattern: new RegExp('https://countries-api-six.vercel.app/'),
+          handler: 'NetworkFirst',
+          options: {
+            cacheName: 'api',
+          },
+        },
+      ],
     }),
   ],
 };
