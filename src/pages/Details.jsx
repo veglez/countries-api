@@ -1,5 +1,5 @@
-import React  from 'react';
-import {  useHistory, useParams } from 'react-router-dom';
+import React from 'react';
+import { useHistory, useParams } from 'react-router-dom';
 import BackButton from '../components/BackButton/BackButton';
 import BorderCountryButton from '../components/BorderCountryButton/BorderCountryButton';
 import { useData } from '../context/dataContext';
@@ -15,17 +15,19 @@ const Details = () => {
   const { name } = useParams();
   const { allCountries } = useData();
   const historyHook = useHistory();
+  let borders = [];
 
-  const data = allCountries.filter(
-    (country) => country.name === name
-  )[0];
+  const data = allCountries.filter((country) => country.name === name)[0] || [];
 
-  const borders = data.borders
-  .map(alphaCode => allCountries
-    .filter( country => country.alpha3Code === alphaCode))
+  if (Object.keys(data).length > 0) {
+    borders = data.borders.map((alphaCode) =>
+      allCountries.filter((country) => country.alpha3Code === alphaCode)
+    );
+  }
 
   const handleClick = () => {
-    historyHook.goBack()
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    historyHook.goBack();
   };
 
   if (Object.keys(data).length < 1) return <h3>Loading....</h3>;
@@ -90,18 +92,20 @@ const Details = () => {
               </li>
             </ul>
           </Content>
-          <Links className='links'>
-            <p>Border Countries: </p>
-            <div>
-              {borders.map((border, i) => (
-                <BorderCountryButton
-                  key={i} 
-                  text={border[0].name}
-                  to={`/details/${border[0].name}`}
-                />
-              ))}
-            </div>
-          </Links>
+          {borders.length > 0 && (
+            <Links className='links'>
+              <p>Border Countries: </p>
+              <div>
+                {borders.map((border, i) => (
+                  <BorderCountryButton
+                    key={i}
+                    text={border[0].name}
+                    to={`/details/${border[0].name}`}
+                  />
+                ))}
+              </div>
+            </Links>
+          )}
         </InfoContainer>
       </Article>
     </Container>

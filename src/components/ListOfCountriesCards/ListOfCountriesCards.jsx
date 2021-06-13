@@ -1,16 +1,10 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useData } from '../../context/dataContext';
 import CountryCard from '../CountryCard/CountryCard';
 import { Container } from './styles';
 
 const ListOfCountriesCards = () => {
-  const { searchField, setAllCountries } = useData();
-
-  useEffect(() => {
-    fetch('https://restcountries.eu/rest/v2')
-      .then((res) => res.json())
-      .then((data) => setAllCountries(data));
-  }, []);
+  const { searchField } = useData();
 
   if (searchField.length < 1) return <h3>Not found</h3>;
   return (

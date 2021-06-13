@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { SearchField } from './styled';
 import { AiOutlineSearch } from 'react-icons/ai';
 import { useTheme } from '../../context/themeContext';
@@ -10,15 +10,13 @@ const SearchInput = () => {
 
   const [value, setValue] = useState('');
 
-  useMemo(
-    () =>
-      setSearchField(
-        filteredCountries.filter((country) =>
-          country.name.toLowerCase().includes(value.toLowerCase())
-        )
-      ),
-    [value, filteredCountries]
-  );
+  useEffect(() => {
+    setSearchField(
+      filteredCountries.filter((country) =>
+        country.name.toLowerCase().includes(value.toLowerCase())
+      )
+    );
+  }, [value]);
 
   return (
     <SearchField htmlFor='search' theme={currentTheme}>
