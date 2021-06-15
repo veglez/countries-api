@@ -8,7 +8,7 @@ module.exports = merge(webpackCommon, {
   devtool: 'source-map',
   devServer: {
     historyApiFallback: true,
-    port: 8080,
+    port: 8020,
     open: true,
   },
 });

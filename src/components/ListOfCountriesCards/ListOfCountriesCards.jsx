@@ -4,12 +4,17 @@ import CountryCard from '../CountryCard/CountryCard';
 import { Container } from './styles';
 
 const ListOfCountriesCards = () => {
-  const { searchField } = useData();
+  const { allCountries, searchField, filteredCountries } = useData();
 
-  if (searchField.length < 1) return <h3>Not found</h3>;
+  let filteredBySearch = filteredCountries.filter((country) =>
+    country.name.toLowerCase().includes(searchField)
+  );
+
+  if (allCountries.length < 1) return <h3>Loading...</h3>;
+  if (filteredBySearch.length < 1) return <h3>Not found</h3>;
   return (
     <Container>
-      {searchField.map((country) => {
+      {filteredBySearch.map((country) => {
         return (
           <CountryCard
             key={country.alpha3Code}

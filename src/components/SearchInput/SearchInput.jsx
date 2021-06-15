@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { SearchField } from './styled';
 import { AiOutlineSearch } from 'react-icons/ai';
 import { useTheme } from '../../context/themeContext';
@@ -6,17 +6,7 @@ import { useData } from '../../context/dataContext';
 
 const SearchInput = () => {
   const { currentTheme } = useTheme();
-  const { filteredCountries, setSearchField } = useData();
-
-  const [value, setValue] = useState('');
-
-  useEffect(() => {
-    setSearchField(
-      filteredCountries.filter((country) =>
-        country.name.toLowerCase().includes(value.toLowerCase())
-      )
-    );
-  }, [value]);
+  const { setSearchField, searchField } = useData();
 
   return (
     <SearchField htmlFor='search' theme={currentTheme}>
@@ -26,8 +16,8 @@ const SearchInput = () => {
         name='search'
         id='search'
         placeholder={'Search for a country...'}
-        onInput={(e) => setValue(e.target.value)}
-        value={value}
+        onInput={(e) => setSearchField(e.target.value)}
+        value={searchField}
       />
     </SearchField>
   );

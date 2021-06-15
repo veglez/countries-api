@@ -11,7 +11,6 @@ const Filter = () => {
 
   const handleClick = (e) => {
     const region = e.target.dataset.name.toLowerCase();
-    console.log(region);
     continent.includes(region)
       ? setContinent(continent.filter((c) => c !== region))
       : setContinent([...continent, region]);

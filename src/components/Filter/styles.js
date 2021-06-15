@@ -41,10 +41,7 @@ export const ListItem = styled.li`
   padding: 8px 16px;
   /* display: inline-block; */
   width: 100%;
-
-  &:hover {
-    background-color: rgba(0, 0, 0, 0.25);
-  }
+  cursor: pointer;
 
   &:first-child {
     padding: 16px 0 8px 16px;

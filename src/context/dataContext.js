@@ -5,11 +5,10 @@ const Countries = React.createContext(null);
 export default function CountriesProvider({ children }) {
   const [allCountries, setAllCountries] = useState([]);
   const [filteredCountries, setFilteredCountries] = useState(allCountries);
-  const [searchField, setSearchField] = useState(filteredCountries);
+  const [searchField, setSearchField] = useState('');
 
   useEffect(() => {
     setFilteredCountries(allCountries);
-    setSearchField(allCountries);
   }, [allCountries]);
 
   return (
