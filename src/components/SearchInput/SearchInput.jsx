@@ -16,7 +16,7 @@ const SearchInput = () => {
         name='search'
         id='search'
         placeholder={'Search for a country...'}
-        onInput={(e) => setSearchField(e.target.value)}
+        onInput={(e) => setSearchField(e.target.value.toLowerCase())}
         value={searchField}
       />
     </SearchField>
