@@ -5,4 +5,5 @@ export const Container = styled.div`
   flex-wrap: wrap;
   gap: 50px;
   max-width: 1400px;
+  justify-content: space-evenly;
 `;

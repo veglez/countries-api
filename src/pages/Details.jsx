@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import BackButton from '../components/BackButton/BackButton';
 import BorderCountryButton from '../components/BorderCountryButton/BorderCountryButton';
@@ -19,16 +19,19 @@ const Details = () => {
 
   const data = allCountries.filter((country) => country.name === name)[0] || [];
 
-  if (Object.keys(data).length > 0) {
+  if (Object.keys(data).length > 0 && data.borders) {
     borders = data.borders.map((alphaCode) =>
       allCountries.filter((country) => country.alpha3Code === alphaCode)
     );
   }
 
   const handleClick = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
     historyHook.goBack();
   };
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, []);
 
   if (Object.keys(data).length < 1) return <h3>Loading....</h3>;
   return (

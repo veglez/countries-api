@@ -7,11 +7,15 @@ export const Card = styled(Link)`
   color: inherit;
   border-radius: 8px;
   max-width: 250px;
+  min-width: 250px;
   margin: 0 auto;
   overflow: hidden;
   background-color: ${({ theme }) => theme.elements};
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
   height: 380px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 
   img {
     width: 100%;
